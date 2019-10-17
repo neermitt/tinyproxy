@@ -21,7 +21,7 @@ exitus()
 if [ $# == 0  ] || [ "${1#-}" != "$1" ]             ##### in case of no argument or if first argment is an option
    then                                             ##### (begins with "-") then start tinyproxy
       [ -r /etc/default/tinyproxy ] &&  . /etc/default/tinyproxy
-      if [ -f /etc/tinyproxy.filter ]
+      if [ -f /etc/tinyproxy/tinyproxy.filter ]
          then
             optionsgrep="^Filter "
             echo "Filter  /etc/tinyproxy.filter"      > /tmp/tinyproxy.add
@@ -62,7 +62,7 @@ if [ $# == 0  ] || [ "${1#-}" != "$1" ]             ##### in case of no argument
                   *)  exitus 3 "wrong usage of this container -- '$1' is not an option";;
                esac
          done
-      egrep -iv "${optionsgrep%|}" /etc/tinyproxy.conf   > /logs/tinyproxy.conf
+      egrep -iv "${optionsgrep%|}" /etc/tinyproxy/tinyproxy.conf   > /logs/tinyproxy.conf
       cat                          /tmp/tinyproxy.add   >> /logs/tinyproxy.conf
       chown -R nobody:nogroup /logs
       set -- tinyproxy -d -c /logs/tinyproxy.conf
